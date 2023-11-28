@@ -65,7 +65,7 @@ impl Rule {
     }
 
     fn check(&self, state: (bool, bool, bool)) -> bool {
-        let key = |(a, b, c)| -> usize { (if a { 0b100 } else { 0 }) + if b { 0b010 } else { 0 } + if c { 0b001 } else { 0 } };
+        let key = |(a, b, c)| ((a as usize) << 2) + ((b as usize) << 1) + c as usize;
         self.rule[key(state)]
     }
 }
