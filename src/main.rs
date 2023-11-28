@@ -1,4 +1,3 @@
-use std::error::Error;
 use std::time::SystemTime;
 
 use clap::Parser;
@@ -12,7 +11,7 @@ macro_rules! time {
     }};
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() {
     let args = FlautomataArgs::parse();
     let mut line = args.start_line.map(|s| ensure_length(s, args.width, ' ')).unwrap_or(" ".repeat(args.width - 1) + "#");
     let mut res = line.clone() + "\n";
@@ -22,9 +21,8 @@ fn main() -> Result<(), Box<dyn Error>> {
             line = compute_next_state(line, &rule);
             res.push_str(&(line.clone() + "\n"))
         }
-    }}?;
+    }}.expect("Normal time on the machine");
     println!("{res}\n{time:?}");
-    Ok(())
 }
 
 fn compute_next_state(line: String, rule: &Rule) -> String {
